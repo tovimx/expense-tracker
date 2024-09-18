@@ -40,6 +40,7 @@ const categories = [
 
 export function ExpenseForm() {
     const [amount, setAmount] = useState("");
+    const [description, setDescription] = useState("");
     const [paymentMethod, setPaymentMethod] = useState("");
     const [category, setCategory] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
@@ -63,6 +64,19 @@ export function ExpenseForm() {
             </CardHeader>
             <form onSubmit={handleSubmit}>
                 <CardContent className="space-y-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="amount">Description</Label>
+                        <div className="relative">
+                            <Input
+                                id="amount"
+                                type="text"
+                                placeholder="Compra en HEB"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                required
+                            />
+                        </div>
+                    </div>
                     <div className="space-y-2">
                         <Label htmlFor="amount">Cantidad</Label>
                         <div className="relative">
