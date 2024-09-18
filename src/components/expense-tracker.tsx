@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import { CalendarIcon, CreditCard } from "lucide-react";
-
+import { Expense } from "@/lib/definitions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import clsx from "clsx";
+import { format } from "date-fns";
 
 const data = [
     { name: "Jan", total: 1200 },
@@ -17,45 +17,7 @@ const data = [
     { name: "May", total: 1800 },
 ];
 
-const expenses = [
-    {
-        id: 1,
-        date: "2023-05-15",
-        amount: 50,
-        category: "Food",
-        description: "Grocery shopping",
-    },
-    {
-        id: 2,
-        date: "2023-05-14",
-        amount: 30,
-        category: "Transport",
-        description: "Bus fare",
-    },
-    {
-        id: 3,
-        date: "2023-05-13",
-        amount: 100,
-        category: "Entertainment",
-        description: "Movie night",
-    },
-    {
-        id: 4,
-        date: "2023-05-12",
-        amount: 200,
-        category: "Bills",
-        description: "Electricity bill",
-    },
-    {
-        id: 5,
-        date: "2023-05-11",
-        amount: 75,
-        category: "Shopping",
-        description: "New shirt",
-    },
-];
-
-export function ExpenseTracker() {
+export function ExpenseTracker({ expenses }: { expenses: Expense[] }) {
     const [activeTab, setActiveTab] = useState("expenses");
 
     return (
@@ -107,18 +69,21 @@ export function ExpenseTracker() {
                             <CardContent className="p-4 flex justify-between items-center">
                                 <div className="space-y-1">
                                     <p className="text-sm font-medium">
-                                        {expense.description}
+                                        {expense?.description ??
+                                            "No description"}
                                     </p>
                                     <div className="flex items-center text-xs text-muted-foreground">
                                         <CalendarIcon className="mr-1 h-3 w-3" />
-                                        {expense.date}
+                                        {format(expense.date, "PPPPp")}
                                     </div>
-                                    <div className="text-xs font-medium">
-                                        {expense.category}
+                                    <div className="text-xs font-medium capitalize">
+                                        {expense.category_name}
                                     </div>
                                 </div>
                                 <div className="flex items-center">
-                                    <CreditCard className="mr-2 h-4 w-4 text-muted-foreground" />
+                                    <span title={expense.account_name}>
+                                        <CreditCard className="mr-2 h-4 w-4 text-muted-foreground" />
+                                    </span>
                                     <span className="text-lg font-bold">
                                         ${expense.amount}
                                     </span>
