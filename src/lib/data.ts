@@ -1,5 +1,5 @@
 import { sql } from "@vercel/postgres";
-import { Expense, Category } from "./definitions";
+import { Expense, Category, Account } from "./definitions";
 
 export async function fetchExpenses() {
     // await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -9,11 +9,12 @@ export async function fetchExpenses() {
             e.id,
             e.amount,
             e.date,
+            e.description,
             c.name AS category_name,
             a.name AS account_name
         FROM expenses e
         JOIN categories c ON e.category = c.id
-        JOIN accounts a ON e.payment_method_id = a.id
+        JOIN accounts a ON e.account = a.id
         ORDER BY e.date DESC;
       `;
 
@@ -38,5 +39,21 @@ export async function fetchCategories() {
     } catch (err) {
         console.error("Database Error:", err);
         throw new Error("Failed to fetch all categories.");
+    }
+}
+
+export async function fetchAccounts() {
+    try {
+        const data = await sql<Account>`
+        SELECT *
+        FROM accounts
+        ORDER BY name ASC;
+      `;
+
+        const accounts = data.rows;
+        return accounts;
+    } catch (err) {
+        console.error("Database Error:", err);
+        throw new Error("Failed to fetch all accounts.");
     }
 }

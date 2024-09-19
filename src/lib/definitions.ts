@@ -3,7 +3,6 @@ export type Expense = {
     account_name: string;
     amount: number;
     date: string;
-    status: "pending" | "paid";
     category_name: string;
     description?: string;
 };
@@ -11,4 +10,10 @@ export type Expense = {
 export type Category = {
     id: string;
     name: string;
+};
+
+export type Account = {
+    id: string;
+    name: string;
+    cut_day: number;
 };
