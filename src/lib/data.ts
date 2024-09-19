@@ -1,7 +1,8 @@
 import { sql } from "@vercel/postgres";
-import { Expense } from "./definitions";
+import { Expense, Category } from "./definitions";
 
 export async function fetchExpenses() {
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
     try {
         const data = await sql<Expense>`
         SELECT
@@ -21,5 +22,21 @@ export async function fetchExpenses() {
     } catch (err) {
         console.error("Database Error:", err);
         throw new Error("Failed to fetch all expenses.");
+    }
+}
+
+export async function fetchCategories() {
+    try {
+        const data = await sql<Category>`
+        SELECT *
+        FROM categories
+        ORDER BY name ASC;
+      `;
+
+        const categories = data.rows;
+        return categories;
+    } catch (err) {
+        console.error("Database Error:", err);
+        throw new Error("Failed to fetch all categories.");
     }
 }

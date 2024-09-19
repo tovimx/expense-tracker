@@ -25,20 +25,22 @@ import {
     WalletIcon,
     SearchIcon,
 } from "lucide-react";
+import { Category } from "@/lib/definitions";
 // import { DatePickerWithPresets } from "./date-picker";
 
-const categories = [
-    { id: "food", name: "Food", icon: WalletIcon },
-    { id: "transport", name: "Transport", icon: CreditCardIcon },
-    { id: "entertainment", name: "Entertainment", icon: WalletIcon },
-    { id: "utilities", name: "Utilities", icon: CreditCardIcon },
-    { id: "shopping", name: "Shopping", icon: WalletIcon },
-    { id: "health", name: "Health", icon: CreditCardIcon },
-    { id: "education", name: "Education", icon: WalletIcon },
-    { id: "travel", name: "Travel", icon: CreditCardIcon },
-];
+// const categories = [
+//     { id: "food", name: "Food", icon: WalletIcon },
+//     { id: "transport", name: "Transport", icon: CreditCardIcon },
+//     { id: "entertainment", name: "Entertainment", icon: WalletIcon },
+//     { id: "utilities", name: "Utilities", icon: CreditCardIcon },
+//     { id: "shopping", name: "Shopping", icon: WalletIcon },
+//     { id: "health", name: "Health", icon: CreditCardIcon },
+//     { id: "education", name: "Education", icon: WalletIcon },
+//     { id: "travel", name: "Travel", icon: CreditCardIcon },
+// ];
 
-export function ExpenseForm() {
+export function ExpenseForm({ categories }: { categories: Category[] }) {
+    console.log("categories", categories);
     const [amount, setAmount] = useState("");
     const [description, setDescription] = useState("");
     const [paymentMethod, setPaymentMethod] = useState("");
@@ -149,7 +151,7 @@ export function ExpenseForm() {
                                         id={cat.id}
                                         className="sr-only"
                                     />
-                                    <cat.icon className="mb-3 h-6 w-6" />
+                                    {/* <cat.icon className="mb-3 h-6 w-6" /> */}
                                     {cat.name}
                                 </Label>
                             ))}

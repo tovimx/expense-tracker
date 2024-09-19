@@ -22,7 +22,6 @@ export function ExpenseTracker({ expenses }: { expenses: Expense[] }) {
 
     return (
         <div className="w-full p-2 sm:p-4 space-y-4">
-            <h1 className="text-2xl font-bold text-center">Expense Tracker</h1>
             <Tabs
                 value={activeTab}
                 onValueChange={setActiveTab}

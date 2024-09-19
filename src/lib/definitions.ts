@@ -7,3 +7,8 @@ export type Expense = {
     category_name: string;
     description?: string;
 };
+
+export type Category = {
+    id: string;
+    name: string;
+};

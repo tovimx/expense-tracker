@@ -82,6 +82,14 @@ export function FloatingSidebar() {
                             </li>
                             <li>
                                 <Link
+                                    href="/dashboard"
+                                    onClick={() => toggleMenu()}
+                                    className="block py-2 px-4 text-lg font-medium text-black hover:bg-gray-100 rounded-md transition-colors duration-200">
+                                    Dashboard
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
                                     onClick={() => toggleMenu()}
                                     href="/new-expense"
                                     className="block py-2 px-4 text-lg font-medium text-black hover:bg-gray-100 rounded-md transition-colors duration-200">
