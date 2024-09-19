@@ -1,9 +1,9 @@
-import { ExpenseForm } from "@/components/expense-form";
+import { ExpenseForm } from "@/components/expense/expense-form";
 import { Suspense } from "react";
 export default async function NewExpense() {
     return (
         <Suspense fallback={<div>loading form</div>}>
-            <ExpenseForm />;
+            <ExpenseForm title="Nuevo gasto" />;
         </Suspense>
     );
 }

@@ -17,3 +17,12 @@ export type Account = {
     name: string;
     cut_day: number;
 };
+
+export type ExpenseForm = {
+    id: string;
+    description: string;
+    amount: number;
+    date: string;
+    category: string;
+    account: string;
+};

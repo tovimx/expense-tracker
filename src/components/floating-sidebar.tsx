@@ -91,7 +91,7 @@ export function FloatingSidebar() {
                             <li>
                                 <Link
                                     onClick={() => toggleMenu()}
-                                    href="/new-expense"
+                                    href="/expense"
                                     className="block py-2 px-4 text-lg font-medium text-black hover:bg-gray-100 rounded-md transition-colors duration-200">
                                     New Expense
                                 </Link>

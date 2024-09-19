@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
-import { CalendarIcon, CreditCard } from "lucide-react";
+import { CalendarIcon, CreditCard, EditIcon } from "lucide-react";
 import { Expense } from "@/lib/definitions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { format } from "date-fns";
+import Link from "next/link";
+import ExpenseDelete from "./expense-delete";
 
 const data = [
     { name: "Jan", total: 1200 },
@@ -65,7 +67,7 @@ export function ExpenseTracker({ expenses }: { expenses: Expense[] }) {
                 <TabsContent value="expenses" className="mt-4 space-y-4">
                     {expenses.map((expense) => (
                         <Card key={expense.id}>
-                            <CardContent className="p-4 flex justify-between items-center">
+                            <CardContent className="p-4 flex justify-between items-center hover:bg-slate-100 group">
                                 <div className="space-y-1">
                                     <p className="text-sm font-medium">
                                         {expense?.description ??
@@ -80,6 +82,17 @@ export function ExpenseTracker({ expenses }: { expenses: Expense[] }) {
                                     </div>
                                 </div>
                                 <div className="flex items-center">
+                                    <Link
+                                        className="hidden mr-2 group-hover:block cursor-pointer text-muted-foreground"
+                                        href={`/expense/${expense.id}/edit`}>
+                                        <Button type="button" variant="ghost">
+                                            <div className="flex flex-row items-center">
+                                                <EditIcon className="mr-2 h-4 w-4 text-muted-foreground" />
+                                                <span>Edit</span>
+                                            </div>
+                                        </Button>
+                                    </Link>
+                                    <ExpenseDelete id={expense.id} />
                                     <span title={expense.account_name}>
                                         <CreditCard className="mr-2 h-4 w-4 text-muted-foreground" />
                                     </span>
@@ -91,7 +104,7 @@ export function ExpenseTracker({ expenses }: { expenses: Expense[] }) {
                         </Card>
                     ))}
                     <Button className="w-full" variant="secondary">
-                        Add New Expense
+                        <Link href="/expense">Add New Expense</Link>
                     </Button>
                 </TabsContent>
             </Tabs>

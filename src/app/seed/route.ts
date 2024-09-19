@@ -195,16 +195,13 @@ async function seedUsers() {
 }
 
 async function seedCategories() {
-    console.log("hola");
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
-    console.log("hola2");
     await client.sql`
     CREATE TABLE IF NOT EXISTS categories (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
         name VARCHAR(255) NOT NULL
     );
     `;
-    console.log("hola3");
     const insertedCategories = await Promise.all(
         categories.map(
             (category) => client.sql`
@@ -291,7 +288,6 @@ async function seedRevenue() {
 }
 
 export async function GET() {
-    console.log("test");
     try {
         await client.sql`BEGIN`;
         await seedUsers();

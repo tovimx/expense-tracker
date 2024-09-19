@@ -1,5 +1,5 @@
 import { sql } from "@vercel/postgres";
-import { Expense, Category, Account } from "./definitions";
+import { Expense, Category, Account, ExpenseForm } from "./definitions";
 
 export async function fetchExpenses() {
     // await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -55,5 +55,32 @@ export async function fetchAccounts() {
     } catch (err) {
         console.error("Database Error:", err);
         throw new Error("Failed to fetch all accounts.");
+    }
+}
+
+export async function fetchExpenseById(id: string) {
+    try {
+        const data = await sql<ExpenseForm>`
+            SELECT
+              expenses.id,
+              expenses.description,
+              expenses.amount,
+              expenses.date,
+              expenses.category,
+              expenses.account
+            FROM expenses
+            WHERE expenses.id = ${id};
+          `;
+
+        const invoice = data.rows.map((invoice) => ({
+            ...invoice,
+            // Convert amount from cents to dollars
+            amount: invoice.amount / 100,
+        }));
+
+        return invoice[0];
+    } catch (error) {
+        console.error("Database Error:", error);
+        throw new Error("Failed to fetch invoice.");
     }
 }

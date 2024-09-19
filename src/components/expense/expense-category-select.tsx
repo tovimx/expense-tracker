@@ -4,13 +4,15 @@ import { Category } from "@/lib/definitions";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { SearchIcon } from "lucide-react";
-import { Input } from "./ui/input";
+import { Input } from "@/components/ui/input";
 export function ExpenseCategorySelect({
     categories,
+    defaultCategory, // default category in case of an edit form
 }: {
     categories: Category[];
+    defaultCategory?: string;
 }) {
-    const [category, setCategory] = useState("");
+    const [category, setCategory] = useState(defaultCategory || "");
     const [searchTerm, setSearchTerm] = useState("");
 
     const filteredCategories = categories.filter((cat) =>

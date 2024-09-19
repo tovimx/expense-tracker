@@ -23,7 +23,7 @@ import { ExpenseCategorySelect } from "./expense-category-select";
 import { fetchAccounts, fetchCategories } from "@/lib/data";
 // import { DatePickerWithPresets } from "./date-picker";
 
-export async function ExpenseForm() {
+export async function ExpenseForm({ title }: { title: string }) {
     const categories = await fetchCategories();
     const accounts = await fetchAccounts();
 
@@ -31,7 +31,7 @@ export async function ExpenseForm() {
         <Card className="w-full max-w-md mx-auto">
             <CardHeader>
                 <CardTitle className="text-2xl font-bold text-center">
-                    Nuevo gasto
+                    {title}
                 </CardTitle>
             </CardHeader>
             <form action={createExpense}>
