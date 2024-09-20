@@ -67,7 +67,7 @@ export function FloatingSidebar() {
                         size="icon"
                         onClick={toggleMenu}
                         aria-label="Close menu"
-                        className="absolute top-4 right-4">
+                        className="absolute top-4 right-4 text-black">
                         <X className="h-6 w-6" />
                     </Button>
                     <nav className="mt-8">

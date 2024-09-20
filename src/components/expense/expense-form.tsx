@@ -1,4 +1,5 @@
-// import { useState } from "react";
+"use client";
+import { useActionState, ReactNode } from "react";
 import {
     Card,
     CardContent,
@@ -18,23 +19,29 @@ import {
 import { Button } from "@/components/ui/button";
 import { DollarSignIcon } from "lucide-react";
 import { Suspense } from "react";
-import { createExpense } from "@/lib/actions";
+import { createExpense, type State } from "@/lib/actions";
 import { ExpenseCategorySelect } from "./expense-category-select";
-import { fetchAccounts, fetchCategories } from "@/lib/data";
+import { Account, Category } from "@/lib/definitions";
 // import { DatePickerWithPresets } from "./date-picker";
 
-export async function ExpenseForm({ title }: { title: string }) {
-    const categories = await fetchCategories();
-    const accounts = await fetchAccounts();
-
+interface NewExpenseFormProps {
+    categories: Category[];
+    accounts: Account[];
+}
+export function ExpenseForm({
+    categories,
+    accounts,
+}: NewExpenseFormProps): ReactNode {
+    const initialState: State = { message: null, errors: {} };
+    const [state, formAction] = useActionState(createExpense, initialState);
     return (
         <Card className="w-full max-w-md mx-auto">
             <CardHeader>
                 <CardTitle className="text-2xl font-bold text-center">
-                    {title}
+                    Nuevo Gasto
                 </CardTitle>
             </CardHeader>
-            <form action={createExpense}>
+            <form action={formAction}>
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="amount">Description</Label>
@@ -43,10 +50,15 @@ export async function ExpenseForm({ title }: { title: string }) {
                                 id="description"
                                 name="description"
                                 placeholder="Compra en HEB"
-                                defaultValue=""
-                                required
+                                defaultValue={""}
                             />
                         </div>
+                        {state.errors?.description &&
+                            state.errors.description.map((error: string) => (
+                                <p className="text-sm text-red-500" key={error}>
+                                    {error}
+                                </p>
+                            ))}
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="amount">Cantidad</Label>
@@ -58,9 +70,14 @@ export async function ExpenseForm({ title }: { title: string }) {
                                 type="number"
                                 placeholder="0.00"
                                 className="pl-10"
-                                required
                             />
                         </div>
+                        {state.errors?.amount &&
+                            state.errors.amount.map((error: string) => (
+                                <p className="text-sm text-red-500" key={error}>
+                                    {error}
+                                </p>
+                            ))}
                     </div>
                     {/* <div className="space-y-2">
                         <Label htmlFor="amount">Fecha</Label>
@@ -71,23 +88,48 @@ export async function ExpenseForm({ title }: { title: string }) {
 
                     <div className="space-y-2">
                         <Label htmlFor="paymentMethod">Payment Method</Label>
-                        <Select required name="account">
+                        <Select
+                            name="account"
+                            aria-describedby="account-error"
+                            defaultValue={"default"}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Select payment method" />
                             </SelectTrigger>
                             <SelectContent>
+                                <SelectItem value={"default"} key={"default"}>
+                                    {"Select payment method"}
+                                </SelectItem>
                                 {accounts.map((account) => (
                                     <SelectItem
-                                        value={account.id}
+                                        value={account.id.toString()}
                                         key={account.id}>
                                         {account.name}
                                     </SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>
+                        <div
+                            id="account-error"
+                            aria-live="polite"
+                            aria-atomic="true">
+                            {state.errors?.account &&
+                                state.errors.account.map((error: string) => (
+                                    <p
+                                        className="mt-2 text-sm text-red-500"
+                                        key={error}>
+                                        {error}
+                                    </p>
+                                ))}
+                        </div>
                     </div>
                     <Suspense fallback={<div>Loading...</div>}>
                         <ExpenseCategorySelect categories={categories} />
+                        {state.errors?.category &&
+                            state.errors.category.map((error: string) => (
+                                <p className="text-sm text-red-500" key={error}>
+                                    {error}
+                                </p>
+                            ))}
                     </Suspense>
                 </CardContent>
                 <CardFooter>

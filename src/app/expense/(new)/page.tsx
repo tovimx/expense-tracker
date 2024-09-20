@@ -1,9 +1,7 @@
 import { ExpenseForm } from "@/components/expense/expense-form";
-import { Suspense } from "react";
+import { fetchAccounts, fetchCategories } from "@/lib/data";
 export default async function NewExpense() {
-    return (
-        <Suspense fallback={<div>loading form</div>}>
-            <ExpenseForm title="Nuevo gasto" />;
-        </Suspense>
-    );
+    const categories = await fetchCategories();
+    const accounts = await fetchAccounts();
+    return <ExpenseForm categories={categories} accounts={accounts} />;
 }

@@ -47,7 +47,6 @@ export async function ExpenseFormEdit({ expense }: { expense: ExpenseForm }) {
                                 name="description"
                                 placeholder="Compra en HEB"
                                 defaultValue={expense.description}
-                                required
                             />
                         </div>
                     </div>
@@ -62,7 +61,6 @@ export async function ExpenseFormEdit({ expense }: { expense: ExpenseForm }) {
                                 placeholder="0.00"
                                 className="pl-10"
                                 defaultValue={expense.amount}
-                                required
                             />
                         </div>
                     </div>
@@ -75,10 +73,7 @@ export async function ExpenseFormEdit({ expense }: { expense: ExpenseForm }) {
 
                     <div className="space-y-2">
                         <Label htmlFor="paymentMethod">Payment Method</Label>
-                        <Select
-                            required
-                            name="account"
-                            defaultValue={expense.account}>
+                        <Select name="account" defaultValue={expense.account}>
                             <SelectTrigger>
                                 <SelectValue placeholder="Select payment method" />
                             </SelectTrigger>
