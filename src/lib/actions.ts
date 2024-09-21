@@ -4,6 +4,8 @@ import { z } from "zod";
 import { sql } from "@vercel/postgres";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { AuthError } from "next-auth";
+import { signIn, signOut } from "../../auth";
 
 export type State = {
     errors?: {
@@ -99,4 +101,32 @@ export async function deleteExpense(id: string) {
         return { message: "Database Error: Failed to Delete Expense." };
     }
     revalidatePath("/dashboard");
+}
+
+export async function authenticate(
+    prevState: string | undefined,
+    formData: FormData
+) {
+    try {
+        await signIn("credentials", formData);
+    } catch (error) {
+        if (error instanceof AuthError) {
+            switch (error.type) {
+                case "CredentialsSignin":
+                    return "Invalid credentials.";
+                default:
+                    return "Something went wrong.";
+            }
+        }
+        throw error;
+    }
+}
+
+export async function logout() {
+    try {
+        await signOut({ redirectTo: "/" });
+    } catch (error) {
+        console.error("Auth Error");
+        return { message: "Auth Error: Error to logout." };
+    }
 }
